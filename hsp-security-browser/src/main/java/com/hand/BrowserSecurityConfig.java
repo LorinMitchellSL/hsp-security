@@ -1,5 +1,7 @@
 package com.hand;
 
+import com.hand.authentication.HspAuthentiationFailureHandler;
+import com.hand.authentication.HspAuthenticationSuccessHandler;
 import com.hand.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +17,12 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
+    @Autowired
+    private HspAuthenticationSuccessHandler hspAuthenticationSuccessHandler;
+
+    @Autowired
+    private HspAuthentiationFailureHandler hspAuthentiationFailureHandler;
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         //实现类可以根据具体情况进行编写
@@ -26,11 +34,13 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
 //        http.httpBasic() 弹出对话框的SpringSecurity安全认证
         http.formLogin()
-                .loginPage("/authentication/require")  //指定登陆界面的地址
+                .loginPage("/hsp-login-page.html")  //指定登陆界面的地址
                 .loginProcessingUrl("/authentication/form")
+                .successHandler(hspAuthenticationSuccessHandler)
+                .failureHandler(hspAuthentiationFailureHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/require",
+                .antMatchers("/hsp-login-page.html",
                         securityProperties.getBrowser().getLoginPage()).permitAll()    //给予登陆界面授权
                 .anyRequest()
                 .authenticated()

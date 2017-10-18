@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/hsp-security.iml" filepath="$PROJECT_DIR$/hsp-security.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hsp-security-app/hsp-security-app.iml" filepath="$PROJECT_DIR$/hsp-security-app/hsp-security-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hsp-security-browser/hsp-security-browser.iml" filepath="$PROJECT_DIR$/hsp-security-browser/hsp-security-browser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hsp-security-core/hsp-security-core.iml" filepath="$PROJECT_DIR$/hsp-security-core/hsp-security-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hsp-security-demo/hsp-security-demo.iml" filepath="$PROJECT_DIR$/hsp-security-demo/hsp-security-demo.iml" />
+    </modules>
+  </component>
+</project>

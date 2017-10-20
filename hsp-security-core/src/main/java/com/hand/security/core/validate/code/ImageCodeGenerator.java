@@ -16,11 +16,13 @@ import java.util.Random;
  ****************************************************************/
 public class ImageCodeGenerator implements ValidateCodeGenerator {
 
+    //引入配置信息
     @Autowired
     private SecurityProperties securityProperties;
 
     @Override
-    public ImageCode createImageCode(ServletWebRequest request) {
+    public ImageCode generateCode(ServletWebRequest request) {
+        //从请求中获取验证码的宽和高度信息，如果请求中有传入则使用传入，没有的话使用下一层的配置
         int width = ServletRequestUtils.getIntParameter(request.getRequest(),"width",securityProperties.getCode().getImage().getWidth());
         int height =ServletRequestUtils.getIntParameter(request.getRequest(),"height",securityProperties.getCode().getImage().getHeight());
         BufferedImage image= new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
@@ -42,6 +44,8 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
         }
 
         String sRand = "";
+
+        //获取配置中验证码的位数，不再是写死的位数
         for (int i = 0; i < securityProperties.getCode().getImage().getLength(); i++){
             String rand = String.valueOf(random.nextInt(10));
             sRand += rand;
@@ -51,6 +55,7 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
 
         g.dispose();
 
+        //从配置中加过期时间
         return new ImageCode(image,sRand,securityProperties.getCode().getImage().getExpireIn());
 
     }

@@ -4,6 +4,9 @@ import com.hand.authentication.HspAuthentiationFailureHandler;
 import com.hand.authentication.HspAuthenticationSuccessHandler;
 import com.hand.security.core.properties.SecurityProperties;
 import com.hand.security.core.validate.code.ValidateCodeController;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import com.hand.security.core.validate.code.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -26,10 +31,25 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private HspAuthentiationFailureHandler hspAuthentiationFailureHandler;
 
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         //实现类可以根据具体情况进行编写
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository(){
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        //启动时创建表
+//        tokenRepository.setCreateTableOnStartup(true);
+        return  tokenRepository;
     }
 
     @Override
@@ -51,10 +71,15 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(hspAuthenticationSuccessHandler)
                 .failureHandler(hspAuthentiationFailureHandler)
                 .and()
+                .rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
+                .userDetailsService(userDetailsService)
+                .and()
                 .authorizeRequests()
                 .antMatchers("/hsp-login-page.html",
                         securityProperties.getBrowser().getLoginPage(),
-                        "/code/image").permitAll()    //给予登陆界面授权
+                        "/code/*").permitAll()    //给予登陆界面授权
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -36,7 +36,12 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
 
         ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+
         validateCodeFilter.setAuthenticationFailureHandler(hspAuthentiationFailureHandler);
+
+        validateCodeFilter.setSecurityProperties(securityProperties);
+
+        validateCodeFilter.afterPropertiesSet();
 
 //        http.httpBasic() 弹出对话框的SpringSecurity安全认证
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)

@@ -21,7 +21,7 @@ public class ValidateCodeProcessorHolder {
     }
 
     public ValidateCodeProcessor findValidateCodeProcessor(String type) {
-        String name = type.toLowerCase() + ValidateCodeProcessor.class.getSimpleName();
+        String name = type.toLowerCase() + "CodeProcessor";
         ValidateCodeProcessor processor = validateCodeProcessors.get(name);
         if (processor == null) {
             throw new ValidateCodeException("验证码处理器" + name + "不存在");

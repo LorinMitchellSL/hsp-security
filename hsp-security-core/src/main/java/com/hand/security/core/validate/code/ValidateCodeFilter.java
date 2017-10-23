@@ -34,6 +34,7 @@ import java.util.Set;
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean { //继承该类使我们的过滤器只调用一次
 
+    @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
 //    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
@@ -43,10 +44,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
     private Map<String, ValidateCodeType> urlMap = new HashMap<>();
 
-    //存储配置中需要过滤的接口
-    private Set<String> urls = new HashSet<>();
-
     //安全配置信息
+    @Autowired
     private SecurityProperties securityProperties;
 
     //匹配工具类
@@ -55,25 +54,25 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     public ValidateCodeFilter() {
     }
 
-//    @Override
-//    public void afterPropertiesSet() throws ServletException {
-//        super.afterPropertiesSet();
-//
-//        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeType.IMAGE);
-//        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
-//
-//        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
-//        addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
-//    }
-//
-//    protected void addUrlToMap(String urlString, ValidateCodeType type) {
-//        if (StringUtils.isNotBlank(urlString)) {
-//            String[] urls = StringUtils.splitByWholeSeparatorPreserveAllTokens(urlString, ",");
-//            for (String url : urls) {
-//                urlMap.put(url, type);
-//            }
-//        }
-//    }
+    @Override
+    public void afterPropertiesSet() throws ServletException {
+        super.afterPropertiesSet();
+
+        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeType.IMAGE);
+        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
+
+        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
+        addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
+    }
+
+    protected void addUrlToMap(String urlString, ValidateCodeType type) {
+        if (urlString != null) {
+            String[] urls = StringUtils.splitByWholeSeparatorPreserveAllTokens(urlString, ",");
+            for (String url : urls) {
+                urlMap.put(url, type);
+            }
+        }
+    }
 
     //逻辑
     @Override

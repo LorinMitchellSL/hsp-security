@@ -72,12 +72,11 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .userDetailsService(userDetailsService)
                 .and()
                 .authorizeRequests()
-                .antMatchers(
-                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                         SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                         securityProperties.getBrowser().getLoginPage(),
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*")
-                .permitAll()
+                .permitAll()    //给予登陆界面授权
                 .anyRequest()
                 .authenticated()
                 .and()

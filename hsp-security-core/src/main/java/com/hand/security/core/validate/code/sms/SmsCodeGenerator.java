@@ -1,6 +1,8 @@
-package com.hand.security.core.validate.code;
+package com.hand.security.core.validate.code.sms;
 
 import com.hand.security.core.properties.SecurityProperties;
+import com.hand.security.core.validate.code.ValidateCode;
+import com.hand.security.core.validate.code.ValidateCodeGenerator;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,7 +26,7 @@ public class SmsCodeGenerator implements ValidateCodeGenerator {
     private SecurityProperties securityProperties;
 
     @Override
-    public ValidateCode generateCode(ServletWebRequest request) {
+    public ValidateCode generate(ServletWebRequest request) {
         String code = RandomStringUtils.randomNumeric(securityProperties.getCode().getSms().getLength());
         return new ValidateCode(code,securityProperties.getCode().getSms().getExpireIn());
     }

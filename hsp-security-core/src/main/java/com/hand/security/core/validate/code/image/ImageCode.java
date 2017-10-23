@@ -1,4 +1,6 @@
-package com.hand.security.core.validate.code;
+package com.hand.security.core.validate.code.image;
+
+import com.hand.security.core.validate.code.ValidateCode;
 
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;

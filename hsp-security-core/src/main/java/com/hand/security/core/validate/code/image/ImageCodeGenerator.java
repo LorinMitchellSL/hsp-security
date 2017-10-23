@@ -1,6 +1,7 @@
-package com.hand.security.core.validate.code;
+package com.hand.security.core.validate.code.image;
 
 import com.hand.security.core.properties.SecurityProperties;
+import com.hand.security.core.validate.code.ValidateCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -21,7 +22,7 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
     private SecurityProperties securityProperties;
 
     @Override
-    public ImageCode generateCode(ServletWebRequest request) {
+    public ImageCode generate(ServletWebRequest request) {
         //从请求中获取验证码的宽和高度信息，如果请求中有传入则使用传入，没有的话使用下一层的配置
         int width = ServletRequestUtils.getIntParameter(request.getRequest(),"width",securityProperties.getCode().getImage().getWidth());
         int height =ServletRequestUtils.getIntParameter(request.getRequest(),"height",securityProperties.getCode().getImage().getHeight());

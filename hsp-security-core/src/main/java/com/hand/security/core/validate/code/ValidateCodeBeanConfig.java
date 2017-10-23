@@ -1,7 +1,9 @@
 package com.hand.security.core.validate.code;
 
 import com.hand.security.core.properties.SecurityProperties;
+import com.hand.security.core.validate.code.image.ImageCodeGenerator;
 import com.hand.security.core.validate.code.sms.DefaultSmsCodeSender;
+import com.hand.security.core.validate.code.sms.SmsCodeGenerator;
 import com.hand.security.core.validate.code.sms.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -31,7 +33,9 @@ public class ValidateCodeBeanConfig {
     @Bean
     //条件，当不存在imageCodeGenerator Bean时调用下面的函数
     @ConditionalOnMissingBean(SmsCodeSender.class)
-    public SmsCodeSender smsCodeSender(){
-       return new DefaultSmsCodeSender();
+    public SmsCodeGenerator smsCodeSender(){
+        SmsCodeGenerator smsCodeGenerator = new SmsCodeGenerator();
+        smsCodeGenerator.setSecurityProperties(securityProperties);
+        return smsCodeGenerator;
     }
 }

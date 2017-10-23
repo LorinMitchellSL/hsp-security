@@ -9,6 +9,7 @@ import com.hand.security.core.properties.SecurityConstants;
 import com.hand.security.core.properties.SecurityProperties;
 import com.hand.security.core.validate.code.ValidateCodeController;
 import com.hand.security.core.validate.code.ValidateCodeSecurityConfig;
+import com.hand.session.HspExpiredSessionStrategy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -71,11 +72,19 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
                 .userDetailsService(userDetailsService)
                 .and()
+                .sessionManagement()
+                .invalidSessionUrl("/session/invalid")
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true)
+                .expiredSessionStrategy(new HspExpiredSessionStrategy())
+                .and()
+                .and()
                 .authorizeRequests()
                 .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                         SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                         securityProperties.getBrowser().getLoginPage(),
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*")
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
+                        "/session/invalid")
                 .permitAll()    //给予登陆界面授权
                 .anyRequest()
                 .authenticated()

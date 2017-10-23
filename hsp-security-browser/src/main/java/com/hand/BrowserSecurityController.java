@@ -58,4 +58,12 @@ public class BrowserSecurityController {
         //返回json
         return new SimpleResponse("需要认证！");
     }
+
+    @RequestMapping("/session/invalid")
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    public SimpleResponse sessionInvalid(){
+        String message = "Session已过期，请重新登陆";
+        return new SimpleResponse(message);
+    }
+
 }

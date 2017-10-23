@@ -29,7 +29,7 @@ public interface SecurityConstants {
      *
      *
      */
-    public static final String DEFAULT_LOGIN_PAGE_URL = "/imooc-signIn.html";
+    public static final String DEFAULT_LOGIN_PAGE_URL = "/hsp-login-page.html";
     /**
      * 验证图片验证码时，http请求中默认的携带图片验证码信息的参数的名称
      */

@@ -1,6 +1,7 @@
 package com.hand.security.core.validate.code;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import java.util.Map;
  *              DATE: 2017/10/20                                 *
  *              TIME: 16:20                                      * 
  ****************************************************************/
+@Component
 public class ValidateCodeProcessorHolder {
 
     @Autowired

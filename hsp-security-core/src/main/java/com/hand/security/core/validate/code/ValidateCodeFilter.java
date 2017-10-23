@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -30,6 +31,7 @@ import java.util.Set;
  *              DATE: 2017/10/19                                 *
  *              TIME: 13:52                                      * 
  ****************************************************************/
+@Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean { //继承该类使我们的过滤器只调用一次
 
     private AuthenticationFailureHandler authenticationFailureHandler;
@@ -53,25 +55,25 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     public ValidateCodeFilter() {
     }
 
-    @Override
-    public void afterPropertiesSet() throws ServletException {
-        super.afterPropertiesSet();
-
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeType.IMAGE);
-        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
-
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
-        addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
-    }
-
-    protected void addUrlToMap(String urlString, ValidateCodeType type) {
-        if (StringUtils.isNotBlank(urlString)) {
-            String[] urls = StringUtils.splitByWholeSeparatorPreserveAllTokens(urlString, ",");
-            for (String url : urls) {
-                urlMap.put(url, type);
-            }
-        }
-    }
+//    @Override
+//    public void afterPropertiesSet() throws ServletException {
+//        super.afterPropertiesSet();
+//
+//        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeType.IMAGE);
+//        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
+//
+//        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
+//        addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
+//    }
+//
+//    protected void addUrlToMap(String urlString, ValidateCodeType type) {
+//        if (StringUtils.isNotBlank(urlString)) {
+//            String[] urls = StringUtils.splitByWholeSeparatorPreserveAllTokens(urlString, ",");
+//            for (String url : urls) {
+//                urlMap.put(url, type);
+//            }
+//        }
+//    }
 
     //逻辑
     @Override

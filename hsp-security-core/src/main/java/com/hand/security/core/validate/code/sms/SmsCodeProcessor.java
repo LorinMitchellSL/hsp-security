@@ -13,7 +13,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  *              DATE: 2017/10/20                                 *
  *              TIME: 16:24                                      * 
  ****************************************************************/
-@Component("smsValidateCodeProcessor")
+@Component("smsCodeProcessor")
 public class SmsCodeProcessor extends AbstractValidateCodeProcessor<ValidateCode> {
 
     /**

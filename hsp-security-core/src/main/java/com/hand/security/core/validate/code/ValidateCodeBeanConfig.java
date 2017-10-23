@@ -31,11 +31,8 @@ public class ValidateCodeBeanConfig {
     }
 
     @Bean
-    //条件，当不存在imageCodeGenerator Bean时调用下面的函数
     @ConditionalOnMissingBean(SmsCodeSender.class)
-    public SmsCodeGenerator smsCodeSender(){
-        SmsCodeGenerator smsCodeGenerator = new SmsCodeGenerator();
-        smsCodeGenerator.setSecurityProperties(securityProperties);
-        return smsCodeGenerator;
+    public SmsCodeSender smsCodeSender() {
+        return new DefaultSmsCodeSender();
     }
 }

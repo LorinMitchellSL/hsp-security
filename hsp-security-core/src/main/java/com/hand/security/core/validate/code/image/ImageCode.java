@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
  *              TIME: 10:44                                      * 
  ****************************************************************/
 public class ImageCode extends ValidateCode {
+
     private BufferedImage image;
 
     public ImageCode(BufferedImage image, String code, int expireIn) {

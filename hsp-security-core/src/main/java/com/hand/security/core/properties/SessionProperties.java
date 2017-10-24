@@ -6,6 +6,7 @@ package com.hand.security.core.properties;
  *              TIME: 20:23                                      * 
  ****************************************************************/
 public class SessionProperties {
+    //最大会话数
     private int maximumSessions = 1;
     /**
      * 达到最大session时是否阻止新的登录请求，默认为false，不阻止，新的登录会将老的登录失效掉

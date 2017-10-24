@@ -1,6 +1,7 @@
 package com.hand.security.core.validate.code;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /*******************Copyright Information************************
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
  *              DATE: 2017/10/19                                 *
  *              TIME: 10:44                                      * 
  ****************************************************************/
-public class ValidateCode {
+public class ValidateCode implements Serializable{
 
     private String code;
 

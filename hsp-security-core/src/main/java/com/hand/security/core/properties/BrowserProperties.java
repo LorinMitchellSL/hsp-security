@@ -14,8 +14,10 @@ public class BrowserProperties {
 
     private LoginResponseType loginType = LoginResponseType.JSON;
 
+    //记住我功能的时间
     private int rememberMeSeconds = 3600;
 
+    //Session
     private SessionProperties session = new SessionProperties();
 
     public String getLoginPage() {

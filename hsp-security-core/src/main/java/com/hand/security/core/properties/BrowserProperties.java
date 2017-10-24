@@ -16,6 +16,8 @@ public class BrowserProperties {
 
     private int rememberMeSeconds = 3600;
 
+    private SessionProperties session = new SessionProperties();
+
     public String getLoginPage() {
         return loginPage;
     }
@@ -48,12 +50,12 @@ public class BrowserProperties {
         this.signUpUrl = signUpUrl;
     }
 
-//    public SessionProperties getSession() {
-//        return session;
-//    }
-//
-//    public void setSession(SessionProperties session) {
-//        this.session = session;
-//    }
+    public SessionProperties getSession() {
+        return session;
+    }
+
+    public void setSession(SessionProperties session) {
+        this.session = session;
+    }
 
 }

@@ -11,11 +11,19 @@ import java.io.IOException;
  *              DATE: 2017/10/23                                 *
  *              TIME: 20:07                                      * 
  ****************************************************************/
-public class HspExpiredSessionStrategy implements SessionInformationExpiredStrategy{
+public class HspExpiredSessionStrategy extends AbstractSessionStrategy implements SessionInformationExpiredStrategy{
+
+    public HspExpiredSessionStrategy(String invalidSessionUrl) {
+        super(invalidSessionUrl);
+    }
 
     @Override
     public void onExpiredSessionDetected(SessionInformationExpiredEvent sessionInformationExpiredEvent) throws IOException, ServletException {
-        sessionInformationExpiredEvent.getResponse().setContentType("application/json;charset-UTF-8");
-        sessionInformationExpiredEvent.getResponse().getWriter().write("并发登陆！");
+        onSessionInvalid(sessionInformationExpiredEvent.getRequest(),sessionInformationExpiredEvent.getResponse());
+    }
+
+    @Override
+    protected boolean isConcurrency() {
+        return true;
     }
 }

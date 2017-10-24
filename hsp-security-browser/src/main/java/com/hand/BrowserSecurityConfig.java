@@ -1,26 +1,21 @@
 package com.hand;
 
-import com.hand.authentication.HspAuthentiationFailureHandler;
-import com.hand.authentication.HspAuthenticationSuccessHandler;
 import com.hand.security.core.authentication.AbstractChannelSecurityConfig;
-import com.hand.security.core.authentication.mobile.SmsCodeAuthenticationFilter;
 import com.hand.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.hand.security.core.properties.SecurityConstants;
 import com.hand.security.core.properties.SecurityProperties;
-import com.hand.security.core.validate.code.ValidateCodeController;
 import com.hand.security.core.validate.code.ValidateCodeSecurityConfig;
-import com.hand.session.HspExpiredSessionStrategy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import com.hand.security.core.validate.code.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
 import javax.sql.DataSource;
 
@@ -42,6 +37,12 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
+    @Autowired
+    private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+
+    @Autowired
+    private InvalidSessionStrategy invalidSessionStrategy;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -73,10 +74,10 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .userDetailsService(userDetailsService)
                 .and()
                 .sessionManagement()
-                .invalidSessionUrl("/session/invalid")
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(true)
-                .expiredSessionStrategy(new HspExpiredSessionStrategy())
+                .invalidSessionStrategy(invalidSessionStrategy)
+                .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+                .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
+                .expiredSessionStrategy(sessionInformationExpiredStrategy)
                 .and()
                 .and()
                 .authorizeRequests()
@@ -84,7 +85,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                         SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                         securityProperties.getBrowser().getLoginPage(),
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
-                        "/session/invalid")
+                        SecurityConstants.DEFAULT_SESSION_INVALID_URL)
                 .permitAll()    //给予登陆界面授权
                 .anyRequest()
                 .authenticated()

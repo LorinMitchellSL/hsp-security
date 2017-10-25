@@ -1,8 +1,8 @@
 package com.hand.logout;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hand.SimpleResponse;
 import com.hand.security.core.properties.SecurityProperties;
+import com.hand.security.core.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

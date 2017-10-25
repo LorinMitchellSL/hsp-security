@@ -12,9 +12,14 @@
     <artifactId>hsp-security-demo</artifactId>
 
     <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>com.hand</groupId>-->
+            <!--<artifactId>hsp-security-browser</artifactId>-->
+            <!--<version>${hsp.security.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.hand</groupId>
-            <artifactId>hsp-security-browser</artifactId>
+            <artifactId>hsp-security-app</artifactId>
             <version>${hsp.security.version}</version>
         </dependency>
     </dependencies>

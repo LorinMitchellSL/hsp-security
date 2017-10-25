@@ -49,12 +49,6 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     private LogoutSuccessHandler logoutSuccessHandler;
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        //实现类可以根据具体情况进行编写
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);

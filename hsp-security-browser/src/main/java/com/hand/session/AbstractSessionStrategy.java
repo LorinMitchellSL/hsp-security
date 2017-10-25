@@ -1,6 +1,6 @@
 package com.hand.session;
 
-import com.hand.SimpleResponse;
+import com.hand.security.core.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

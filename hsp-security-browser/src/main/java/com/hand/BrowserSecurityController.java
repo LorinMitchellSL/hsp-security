@@ -1,6 +1,7 @@
 package com.hand;
 
 import com.hand.security.core.properties.SecurityProperties;
+import com.hand.security.core.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public class BrowserSecurityController {
     @RequestMapping("/authentication/require")
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleResponse requireAuthentication(HttpServletRequest request,
-                                        HttpServletResponse response){
+                                                HttpServletResponse response){
 
         SavedRequest savedRequest = requestCache.getRequest(request,response);
 

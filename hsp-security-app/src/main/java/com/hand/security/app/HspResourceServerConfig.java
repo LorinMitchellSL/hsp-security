@@ -34,6 +34,12 @@ public class HspResourceServerConfig extends ResourceServerConfigurerAdapter{
     private SecurityProperties securityProperties;
 
     @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Autowired
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
+    @Autowired
     private DataSource dataSource;
 
     @Autowired
@@ -55,10 +61,13 @@ public class HspResourceServerConfig extends ResourceServerConfigurerAdapter{
     public void configure(HttpSecurity http) throws Exception {
 //        super.configure(http);
         http.formLogin()
-                .loginPage("/hsp-login-page.html")  //指定登陆界面的地址
+//                .loginPage("/hsp-login-page.html")  //指定登陆界面的地址
                 .loginProcessingUrl("/authentication/form")
                 .successHandler(hspAuthenticationSuccessHandler)
-                .failureHandler(hspAuthenticationFailureHandler)
+                .failureHandler(hspAuthenticationFailureHandler);
+        http.apply(validateCodeSecurityConfig)
+                .and()
+                .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
                 .authorizeRequests()
                 .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,

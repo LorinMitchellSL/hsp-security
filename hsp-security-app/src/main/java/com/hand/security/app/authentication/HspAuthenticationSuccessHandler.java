@@ -1,8 +1,6 @@
 package com.hand.security.app.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hand.security.core.properties.LoginResponseType;
-import com.hand.security.core.properties.SecurityProperties;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -35,9 +33,6 @@ public class HspAuthenticationSuccessHandler extends SavedRequestAwareAuthentica
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private SecurityProperties securityProperties;
 
     @Autowired
     private ClientDetailsService clientDetailsService;
